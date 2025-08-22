@@ -61,7 +61,7 @@ public class WebSecurityConfiguration {
                                 "/register",
                                 "/authentication",
                                 "/users",
-                                "/user/*",
+
                                 "/product/**",
                                 "/product/delete/**",
                                 "/AddCustomizations",
@@ -84,6 +84,7 @@ public class WebSecurityConfiguration {
                         ).permitAll()
 
                         // Role-protected endpoints
+                                .requestMatchers(HttpMethod.PUT, "/user/*").hasRole("ADMIN")
                         .requestMatchers("/api/user/orders/**").permitAll()
                         .requestMatchers("/api/admin/orders/**").hasRole("ADMIN")
 //                                .requestMatchers("/api/admin/orders").hasAnyAuthority("ADMIN", "USER")

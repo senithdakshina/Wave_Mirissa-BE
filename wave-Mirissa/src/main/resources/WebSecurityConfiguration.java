@@ -19,6 +19,7 @@
     import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
     import static org.springframework.security.config.Customizer.withDefaults;
 
+    import com.wave.Mirissa.services.jwt.JwtAuthenticationFilter;
     import java.util.List;
 
     import static org.springframework.security.config.Customizer.withDefaults;
@@ -59,7 +60,7 @@
                                     "/register",
                                     "/authentication",
                                     "/users",
-                                    "/user/*",
+
                                     "/product/**",
                                     "/product/delete/**",
                                     "/AddCustomizations",
@@ -87,6 +88,7 @@
 
 
                             ).permitAll()
+                            .requestMatchers(HttpMethod.PUT, "/user/*").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .anyRequest().authenticated()
                     );

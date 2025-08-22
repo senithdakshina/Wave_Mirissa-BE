@@ -1,5 +1,6 @@
 package com.wave.Mirissa.controllers;
 
+import com.wave.Mirissa.dtos.UpdateUserRoleDTO;
 import com.wave.Mirissa.exception.UserNotFoundException;
 import com.wave.Mirissa.models.Customization;
 import com.wave.Mirissa.models.User;
@@ -35,10 +36,11 @@ public class UserControllerAdminPanel {
     }
 
     @PutMapping("/user/{id}")
-    User updateUser(@RequestBody User newUser, @PathVariable Long id) {
+    public User updateUser(@RequestBody UpdateUserRoleDTO newUserRole, @PathVariable Long id) {
         return userRepository.findById(id)
                 .map(user -> {
-                    user.setRole(newUser.getRole());
+                    user.setRole(newUserRole.getRole());
+                    System.out.println(newUserRole.getRole());
                     return userRepository.save(user);
                 }).orElseThrow(() -> new UserNotFoundException(id));
     }
