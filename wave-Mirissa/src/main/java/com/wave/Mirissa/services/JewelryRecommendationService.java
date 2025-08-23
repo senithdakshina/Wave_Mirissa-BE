@@ -1,5 +1,6 @@
 package com.wave.Mirissa.services;
 
+import com.wave.Mirissa.dtos.AnalysisResponse;
 import com.wave.Mirissa.models.MultipartInputStreamFileResource;
 import com.wave.Mirissa.models.Products;
 import com.wave.Mirissa.repositories.ProductRepository;
@@ -37,7 +38,23 @@ public class JewelryRecommendationService {
         this.productRepository = productsRepository;
     }
 
-    public List<Products> analyzeAndFetchRecommendations(MultipartFile image) throws IOException {
+//    public List<Products> analyzeAndFetchRecommendations(MultipartFile image) throws IOException {
+//        Map<String, String> analysisResult = callFastApiForAnalysis(image);
+//
+//        if (analysisResult == null || analysisResult.containsKey("error")) {
+//            String error = analysisResult != null ? analysisResult.get("error") : "Null response";
+//            throw new RuntimeException("Face analysis failed from AI Service: " + error);
+//        }
+//
+//        String faceShape = analysisResult.get("face_shape");
+//        String skinTone = analysisResult.get("skin_tone");
+//
+//        return productRepository.findByFaceShapeTagsIgnoreCaseAndSkinToneTagsIgnoreCase(faceShape, skinTone);
+//    }
+
+    //new one
+
+    public AnalysisResponse analyzeAndFetchRecommendations(MultipartFile image) throws IOException {
         Map<String, String> analysisResult = callFastApiForAnalysis(image);
 
         if (analysisResult == null || analysisResult.containsKey("error")) {
@@ -48,7 +65,13 @@ public class JewelryRecommendationService {
         String faceShape = analysisResult.get("face_shape");
         String skinTone = analysisResult.get("skin_tone");
 
-        return productRepository.findByFaceShapeTagsIgnoreCaseAndSkinToneTagsIgnoreCase(faceShape, skinTone);
+        System.out.println("Face Shape: " + faceShape);
+        System.out.println("Skin Tone: " + skinTone);
+
+        List<Products> products =
+                productRepository.findByFaceShapeTagsIgnoreCaseAndSkinToneTagsIgnoreCase(faceShape, skinTone);
+
+        return new AnalysisResponse(faceShape, skinTone, products);
     }
 
     public Map<String, String> callFastApiForAnalysis(MultipartFile file) throws IOException {
