@@ -1,13 +1,12 @@
 package com.wave.Mirissa.services.jwt;
 
-import com.wave.Mirissa.services.jwt.JwtService;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -30,26 +29,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String username;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        jwt = authHeader.substring(7);
-        username = jwtService.extractUsername(jwt);
+        final String jwt = authHeader.substring(7);
+        final String username = jwtService.extractUsername(jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // ✅ Extract role from token
+            // Extract role from token
             String role = jwtService.extractRole(jwt);
+
+            // Normalize role to uppercase (avoid mismatch issues)
+            if (role != null) {
+                role = role.toUpperCase().trim();
+            }
 
             User userDetails = new User(
                     username,
-                    "", // password not needed here
-                    Collections.singleton(() -> "ROLE_" + role) // convert to GrantedAuthority
+                    "", // password not needed
+                    Collections.singleton(new SimpleGrantedAuthority(role)) // authority = ADMIN
             );
+
+            System.out.println("DEBUG >> username=" + username + ", role=" + role);
 
             if (jwtService.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -60,8 +64,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                // Debug granted authorities
+                System.out.println("DEBUG >> Granted Authorities = " + userDetails.getAuthorities());
             }
         }
+
         filterChain.doFilter(request, response);
     }
 }
