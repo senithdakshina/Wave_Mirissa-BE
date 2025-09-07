@@ -86,10 +86,18 @@ public class WebSecurityConfiguration {
                         ).permitAll()
 
                         // Role-protected endpoints
-                                .requestMatchers(HttpMethod.PUT, "/user/*").hasRole("ADMIN")
-                        .requestMatchers("/api/user/orders/**").permitAll()
-                        .requestMatchers("/api/admin/orders/**").hasRole("ADMIN")
-//                                .requestMatchers("/api/admin/orders").hasAnyAuthority("ADMIN", "USER")
+//                                .requestMatchers(HttpMethod.PUT, "/user/*").hasRole("ADMIN")
+//                        .requestMatchers("/api/user/orders/**").permitAll()
+//                        .requestMatchers("/api/admin/orders/**").hasRole("ADMIN")
+
+
+                        .requestMatchers(HttpMethod.PUT, "/user/*").hasAuthority("ADMIN")
+                        .requestMatchers("/api/admin/orders/**").hasAuthority("ADMIN")
+
+
+
+
+                        .requestMatchers("/error").permitAll()
 
 
 
