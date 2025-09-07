@@ -19,6 +19,10 @@ public class User {
     private Role role = Role.USER;
 
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Address address;
+
+
     public Long getId() {
         return id;
     }
