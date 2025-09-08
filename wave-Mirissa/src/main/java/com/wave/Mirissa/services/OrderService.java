@@ -8,6 +8,7 @@ import com.wave.Mirissa.repositories.OrderRepository;
 import com.wave.Mirissa.repositories.ProductRepository;
 import com.wave.Mirissa.repositories.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -171,12 +172,17 @@ public class OrderService {
     public List<OrderDetailedDTO> getPaidOrdersForAdmin(Integer page, Integer size) {
         if (page != null && size != null) {
             Pageable pageable = PageRequest.of(page, size);
-            List<Order> orders = orderRepository.findAllByStatusWithDetails("PAID", pageable);
-            return orders.stream()
+
+            // Just fetch paged orders without fetch joins
+            Page<Order> ordersPage = orderRepository.findByStatus("PAID", pageable);
+
+            // Map to DTOs (your existing mapToDetailedDTO will safely load lazy fields)
+            return ordersPage.getContent()
+                    .stream()
                     .map(this::mapToDetailedDTO)
                     .toList();
         } else {
-            List<Order> orders = orderRepository.findAllByStatusWithDetails("PAID");
+            List<Order> orders = orderRepository.findByStatus("PAID");
             return orders.stream()
                     .map(this::mapToDetailedDTO)
                     .toList();
