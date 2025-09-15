@@ -1,6 +1,7 @@
 package com.wave.Mirissa.controllers;
 
 import com.wave.Mirissa.dtos.AnalysisResponse;
+import com.wave.Mirissa.dtos.AnalysisResponseCustomizations;
 import com.wave.Mirissa.models.Products;
 import com.wave.Mirissa.services.JewelryRecommendationService;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,18 @@ public class JewelryRecommendationController {
     public ResponseEntity<AnalysisResponse> analyzeAndRecommend(@RequestParam("image") MultipartFile image) {
         try {
             AnalysisResponse response = jewelryRecommendationService.analyzeAndFetchRecommendations(image);
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PostMapping("/analyze/customization")
+    public ResponseEntity<AnalysisResponseCustomizations> analyzeAndRecommendCustomizations(@RequestParam("image") MultipartFile image) {
+        try {
+            AnalysisResponseCustomizations response = jewelryRecommendationService.analyzeAndFetchRecommendationsCustomizations(image);
             return ResponseEntity.ok(response);
         } catch (IOException e) {
             return ResponseEntity.badRequest().build();

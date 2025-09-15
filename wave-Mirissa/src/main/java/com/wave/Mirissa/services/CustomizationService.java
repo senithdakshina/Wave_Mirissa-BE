@@ -35,6 +35,8 @@ public class CustomizationService {
 
                 existing.setName(updatedCustomization.getName());
                 existing.setPrice(updatedCustomization.getPrice());
+                existing.setFaceShapeTags(updatedCustomization.getFaceShapeTags());
+                existing.setSkinToneTags(updatedCustomization.getSkinToneTags());
                 existing.setImageUrl(updatedCustomization.getImageUrl());
 
                 return customizationRepository.save(existing);
