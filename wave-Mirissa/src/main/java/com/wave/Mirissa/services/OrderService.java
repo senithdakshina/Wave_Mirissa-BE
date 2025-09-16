@@ -126,6 +126,7 @@ public class OrderService {
         dto.setStatus(order.getStatus());
         dto.setPaymentMethod(order.getPaymentMethod());
         dto.setPayhereRef(order.getPayhereRef());
+        dto.setOrderStatus(order.getOrderStatus());
         dto.setUserId(order.getUser() != null ? order.getUser().getId() : null);
         dto.setProductIds(order.getProducts() != null ?
                 order.getProducts().stream().map(Products::getProduct_id).toList() : null);
@@ -142,6 +143,7 @@ public class OrderService {
         dto.setPaymentMethod(order.getPaymentMethod());
         dto.setPayhereRef(order.getPayhereRef());
         dto.setCreatedAt(order.getCreatedAt().toString());
+        dto.setOrderStatus(order.getOrderStatus());
 
         if (order.getUser() != null) {
             OrderDetailedDTO.UserDTO userDTO = new OrderDetailedDTO.UserDTO();

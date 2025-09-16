@@ -42,19 +42,34 @@ public class AdminOrderController {
         return ResponseEntity.ok(orders);
     }
 
-    @PatchMapping("/{orderId}/status")
+
+    @PostMapping("/{orderId}/status")
     public ResponseEntity<Order> updateOrderStatus(
             @PathVariable Long orderId,
-            @RequestParam OrderStatus status) {
-
+            @RequestParam OrderStatus status
+    ) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        order.setOrderStatus(status); // use camelCase setter
+        order.setOrderStatus(status);
         orderRepository.save(order);
-
         return ResponseEntity.ok(order);
     }
+
+
+//    @PatchMapping("/{orderId}/status")
+//    public ResponseEntity<Order> updateOrderStatus(
+//            @PathVariable Long orderId,
+//            @RequestParam OrderStatus status) {
+//
+//        Order order = orderRepository.findById(orderId)
+//                .orElseThrow(() -> new RuntimeException("Order not found"));
+//
+//        order.setOrderStatus(status); // use camelCase setter
+//        orderRepository.save(order);
+//
+//        return ResponseEntity.ok(order);
+//    }
 
 
 }

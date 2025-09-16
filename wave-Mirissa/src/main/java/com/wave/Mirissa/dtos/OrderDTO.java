@@ -1,5 +1,7 @@
 package com.wave.Mirissa.dtos;
 
+import com.wave.Mirissa.models.OrderStatus;
+
 import java.util.List;
 
 public class OrderDTO {
@@ -12,6 +14,16 @@ public class OrderDTO {
     private Long userId;
     private List<Long> productIds;
     private String payhereRef;
+
+    private OrderStatus orderStatus;
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
     public Long getId() {
         return id;

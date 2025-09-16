@@ -37,7 +37,7 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
-    private OrderStatus orderStatus = OrderStatus.PROCESSING;
+    private OrderStatus orderStatus = OrderStatus.PENDDING;
 
     public OrderStatus getOrderStatus() {
         return orderStatus;

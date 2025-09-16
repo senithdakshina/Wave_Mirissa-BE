@@ -1,5 +1,7 @@
 package com.wave.Mirissa.dtos;
 
+import com.wave.Mirissa.models.OrderStatus;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -16,6 +18,15 @@ public class OrderDetailedDTO {
     private UserDTO user;
     private List<ProductWithCustomizationDTO> products;
 
+    private OrderStatus orderStatus;
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
     // Getters and setters
 
     public static class UserDTO {
