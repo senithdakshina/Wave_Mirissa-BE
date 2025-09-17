@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,26 @@ public class Order {
     private String status;
     private String paymentMethod;
     private String payhereRef;
+    private String trackingNumber;
+
+    @Temporal(TemporalType.DATE) // Only store date (no time)
+    private Date estimateDate;
+
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    public Date getEstimateDate() {
+        return estimateDate;
+    }
+
+    public void setEstimateDate(Date estimateDate) {
+        this.estimateDate = estimateDate;
+    }
 
     @Column(name = "product_names", columnDefinition = "TEXT")
     private String productNames;

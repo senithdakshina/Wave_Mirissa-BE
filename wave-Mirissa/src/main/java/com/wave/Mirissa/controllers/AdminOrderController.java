@@ -2,6 +2,7 @@ package com.wave.Mirissa.controllers;
 
 import com.wave.Mirissa.dtos.OrderDTO;
 import com.wave.Mirissa.dtos.OrderDetailedDTO;
+import com.wave.Mirissa.dtos.TrackingRequest;
 import com.wave.Mirissa.models.Order;
 import com.wave.Mirissa.models.OrderStatus;
 import com.wave.Mirissa.repositories.OrderRepository;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admin/orders")
@@ -56,6 +58,24 @@ public class AdminOrderController {
         return ResponseEntity.ok(order);
     }
 
+
+    @PutMapping("/{id}/tracking")
+    public ResponseEntity<Order> updateTracking(
+            @PathVariable Long id,
+            @RequestBody TrackingRequest request
+    ) {
+        Optional<Order> optionalOrder = orderRepository.findById(id);
+        if (optionalOrder.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Order order = optionalOrder.get();
+        order.setTrackingNumber(request.getTrackingNumber());
+        order.setEstimateDate(request.getEstimateDate());
+
+        Order saved = orderRepository.save(order);
+        return ResponseEntity.ok(saved);
+    }
 
 //    @PatchMapping("/{orderId}/status")
 //    public ResponseEntity<Order> updateOrderStatus(

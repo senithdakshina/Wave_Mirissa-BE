@@ -47,7 +47,7 @@ public class OrderService {
         order.setPayhereRef(orderDTO.getPayhereRef());
 
         // Set user if exists
-        if (orderDTO.getUserId() != null) {
+         if (orderDTO.getUserId() != null) {
             User user = userRepository.findById(orderDTO.getUserId())
                     .orElseThrow(() -> new RuntimeException("User not found with ID: " + orderDTO.getUserId()));
             order.setUser(user);
@@ -127,6 +127,8 @@ public class OrderService {
         dto.setPaymentMethod(order.getPaymentMethod());
         dto.setPayhereRef(order.getPayhereRef());
         dto.setOrderStatus(order.getOrderStatus());
+        dto.setEstimateDate(order.getEstimateDate());
+        dto.setTrackingNumber(order.getTrackingNumber());
         dto.setUserId(order.getUser() != null ? order.getUser().getId() : null);
         dto.setProductIds(order.getProducts() != null ?
                 order.getProducts().stream().map(Products::getProduct_id).toList() : null);
@@ -144,6 +146,8 @@ public class OrderService {
         dto.setPayhereRef(order.getPayhereRef());
         dto.setCreatedAt(order.getCreatedAt().toString());
         dto.setOrderStatus(order.getOrderStatus());
+        dto.setEstimateDate(order.getEstimateDate());
+        dto.setTrackingNumber(order.getTrackingNumber());
 
         if (order.getUser() != null) {
             OrderDetailedDTO.UserDTO userDTO = new OrderDetailedDTO.UserDTO();

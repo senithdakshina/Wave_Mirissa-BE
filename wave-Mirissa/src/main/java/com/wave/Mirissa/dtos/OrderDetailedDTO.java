@@ -3,6 +3,7 @@ package com.wave.Mirissa.dtos;
 import com.wave.Mirissa.models.OrderStatus;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class OrderDetailedDTO {
@@ -18,6 +19,25 @@ public class OrderDetailedDTO {
     private UserDTO user;
     private List<ProductWithCustomizationDTO> products;
 
+
+    private String trackingNumber;
+    private Date estimateDate;
+
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    public Date getEstimateDate() {
+        return estimateDate;
+    }
+
+    public void setEstimateDate(Date estimateDate) {
+        this.estimateDate = estimateDate;
+    }
     private OrderStatus orderStatus;
 
     public OrderStatus getOrderStatus() {
