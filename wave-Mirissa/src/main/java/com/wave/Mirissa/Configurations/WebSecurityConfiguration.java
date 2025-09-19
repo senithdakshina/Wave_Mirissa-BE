@@ -83,7 +83,8 @@ public class WebSecurityConfiguration {
                                 "virtual_try_on/api/answers",
 
                                 "/api/address/**",
-                                "/api/user/orders/my-orders/**"
+                                "/api/user/orders/my-orders/**",
+                                "/api/user/orders/**"
                         ).permitAll()
 
                         // Role-protected endpoints

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUserId(Long userId);
@@ -15,4 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // For non-paginated fallback
     java.util.List<Order> findByStatus(String status);
+
+    // Add this so controller can find order by orderId
+    Optional<Order> findByOrderId(String orderId);
 }

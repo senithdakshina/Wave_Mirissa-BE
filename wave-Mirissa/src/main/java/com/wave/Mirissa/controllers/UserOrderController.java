@@ -1,9 +1,6 @@
 package com.wave.Mirissa.controllers;
 
-import com.wave.Mirissa.dtos.OrderDTO;
-import com.wave.Mirissa.dtos.OrderDetailedDTO;
-import com.wave.Mirissa.dtos.OrderItemResponseDTO;
-import com.wave.Mirissa.dtos.OrderResponseDTO;
+import com.wave.Mirissa.dtos.*;
 import com.wave.Mirissa.models.Order;
 import com.wave.Mirissa.repositories.OrderRepository;
 import com.wave.Mirissa.services.OrderService;
@@ -13,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user/orders")
@@ -54,6 +52,12 @@ public class UserOrderController {
             dto.setPaymentMethod(order.getPaymentMethod());
             dto.setAmount(order.getAmount());
 
+            // Set tracking info
+            dto.setTrackingNumber(order.getTrackingNumber());
+            dto.setEstimateDate(order.getEstimateDate());
+
+            dto.setCreatedAt(java.sql.Timestamp.valueOf(order.getCreatedAt()));
+
             List<OrderItemResponseDTO> items = order.getOrderItems().stream().map(item -> {
                 OrderItemResponseDTO itemDTO = new OrderItemResponseDTO();
                 itemDTO.setProductName(item.getProductNameSnapshot());
@@ -70,5 +74,17 @@ public class UserOrderController {
             dto.setItems(items);
             return dto;
         }).toList();
+    }
+
+
+
+
+    @GetMapping("/{id}/tracking")
+    public ResponseEntity<?> getTrackingInfo(@PathVariable Long id) {
+        return orderRepository.findById(id)
+                .map(order -> ResponseEntity.ok(
+                        new TrackingInfoDTO(order.getTrackingNumber(), order.getEstimateDate())
+                ))
+                .orElse(ResponseEntity.notFound().build());
     }
 }

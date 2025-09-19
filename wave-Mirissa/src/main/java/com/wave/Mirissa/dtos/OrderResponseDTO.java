@@ -2,6 +2,7 @@ package com.wave.Mirissa.dtos;
 
 import com.wave.Mirissa.models.OrderStatus;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class OrderResponseDTO {
@@ -10,6 +11,11 @@ public class OrderResponseDTO {
     private String paymentMethod;
     private BigDecimal amount;
     private List<OrderItemResponseDTO> items;
+
+    // New fields
+    private String trackingNumber;
+    private Date estimateDate;
+    private Date createdAt;
 
 
     public OrderStatus getOrderStatus() {
@@ -51,4 +57,13 @@ public class OrderResponseDTO {
     public void setItems(List<OrderItemResponseDTO> items) {
         this.items = items;
     }
+
+    // --- New getters and setters ---
+    public String getTrackingNumber() { return trackingNumber; }
+    public void setTrackingNumber(String trackingNumber) { this.trackingNumber = trackingNumber; }
+
+    public Date getEstimateDate() { return estimateDate; }
+    public void setEstimateDate(Date estimateDate) { this.estimateDate = estimateDate; }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 }
