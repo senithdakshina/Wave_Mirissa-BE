@@ -47,6 +47,7 @@ public class UserOrderController {
 
         return orders.stream().map(order -> {
             OrderResponseDTO dto = new OrderResponseDTO();
+            dto.setOrder_id(order.getId());
             dto.setOrderId(order.getOrderId());
             dto.setOrderStatus(order.getOrderStatus());
             dto.setPaymentMethod(order.getPaymentMethod());
@@ -63,7 +64,7 @@ public class UserOrderController {
                 itemDTO.setProductName(item.getProductNameSnapshot());
                 itemDTO.setPrice(item.getPriceSnapshot());
                 itemDTO.setQuantity(1); // if you have quantity, add in model
-
+                itemDTO.setProduct_id(item.getProducts().getProduct_id());
                 itemDTO.setCustomizations(
                         item.getSelectCustomization().stream().map(c -> c.getName()).toList()
                 );

@@ -7,6 +7,7 @@ import java.util.List;
 
 public class OrderResponseDTO {
     private String orderId;
+    private Long order_id;
     private OrderStatus orderStatus;
     private String paymentMethod;
     private BigDecimal amount;
@@ -17,6 +18,13 @@ public class OrderResponseDTO {
     private Date estimateDate;
     private Date createdAt;
 
+    public Long getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(Long order_id) {
+        this.order_id = order_id;
+    }
 
     public OrderStatus getOrderStatus() {
         return orderStatus;

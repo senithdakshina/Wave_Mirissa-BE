@@ -39,6 +39,7 @@ public class OrderService {
         System.out.println("Received productIds: " + orderDTO.getProductIds());
 
         Order order = new Order();
+        order.setId(orderDTO.getId());
         order.setOrderId(orderDTO.getOrderId());
         order.setAmount(new BigDecimal(orderDTO.getAmount()));
         order.setCurrency(orderDTO.getCurrency());
