@@ -1,7 +1,9 @@
 package com.wave.Mirissa.services;
 
+import com.wave.Mirissa.dtos.MonthlyRevenueDTO;
 import com.wave.Mirissa.dtos.OrderDTO;
 import com.wave.Mirissa.dtos.OrderDetailedDTO;
+import com.wave.Mirissa.dtos.RevenueStatsDTO;
 import com.wave.Mirissa.models.*;
 import com.wave.Mirissa.repositories.OrderItemRepository;
 import com.wave.Mirissa.repositories.OrderRepository;
@@ -197,7 +199,15 @@ public class OrderService {
     }
 
 
+    public List<RevenueStatsDTO> getRevenueStats() {
+        return orderRepository.getRevenueStats();
+    }
 
-
+    public List<MonthlyRevenueDTO> getMonthlyRevenue() {
+        List<Object[]> results = orderRepository.getMonthlyRevenue();
+        return results.stream()
+                .map(r -> new MonthlyRevenueDTO((Integer) r[0], (BigDecimal) r[1]))
+                .toList();
+    }
 
 }

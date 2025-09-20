@@ -1,8 +1,6 @@
 package com.wave.Mirissa.controllers;
 
-import com.wave.Mirissa.dtos.OrderDTO;
-import com.wave.Mirissa.dtos.OrderDetailedDTO;
-import com.wave.Mirissa.dtos.TrackingRequest;
+import com.wave.Mirissa.dtos.*;
 import com.wave.Mirissa.models.Order;
 import com.wave.Mirissa.models.OrderStatus;
 import com.wave.Mirissa.repositories.OrderRepository;
@@ -11,8 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin/orders")
@@ -91,5 +90,35 @@ public class AdminOrderController {
 //        return ResponseEntity.ok(order);
 //    }
 
+    @GetMapping("/revenue-trends")
+    public ResponseEntity<?> getRevenueTrends() {
+        List<Order> allOrders = orderRepository.findAll();
+
+        System.out.println(allOrders);
+        BigDecimal totalAmount = allOrders.stream()
+                .map(Order::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        long totalOrders = allOrders.size();
+
+        Map<String, Long> statusCounts = allOrders.stream()
+                .collect(Collectors.groupingBy(
+                        o -> o.getOrderStatus() != null ? o.getOrderStatus().name() : "UNKNOWN",
+                        Collectors.counting()
+                ));
+
+        Map<String, Object> response = Map.of(
+                "totalAmount", totalAmount,
+                "totalOrders", totalOrders,
+                "orderStatusCounts", statusCounts
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/monthly-revenue")
+    public List<MonthlyRevenueDTO> getMonthlyRevenue() {
+        return orderService.getMonthlyRevenue();
+    }
 
 }

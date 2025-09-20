@@ -1,5 +1,6 @@
 package com.wave.Mirissa.services;
 
+import com.wave.Mirissa.dtos.CategoryOverviewDTO;
 import com.wave.Mirissa.models.*;
 import com.wave.Mirissa.repositories.CustomizationRepository;
 import com.wave.Mirissa.repositories.ProductRepository;
@@ -139,5 +140,16 @@ public class ProductService {
         return productRepository.save(existing);
     }
 
+
+
+    public List<CategoryOverviewDTO> getProductTypeOverview() {
+        List<Object[]> results = productRepository.countProductsByCategory();
+        return results.stream() .map(r -> new CategoryOverviewDTO((String) r[0], (Long) r[1])) .toList();
+    }
+
+    public List<CategoryOverviewDTO> getProductNameOverview() {
+        List<Object[]> results = productRepository.countProductsByName();
+        return results.stream() .map(r -> new CategoryOverviewDTO((String) r[0], (Long) r[1])) .toList();
+    }
 
 }

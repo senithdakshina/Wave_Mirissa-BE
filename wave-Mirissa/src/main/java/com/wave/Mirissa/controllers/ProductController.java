@@ -1,5 +1,6 @@
 package com.wave.Mirissa.controllers;
 
+import com.wave.Mirissa.dtos.CategoryOverviewDTO;
 import com.wave.Mirissa.models.Products;
 import com.wave.Mirissa.repositories.ProductRepository;
 import com.wave.Mirissa.services.ProductService;
@@ -67,6 +68,11 @@ public class ProductController {
     }
 
 
+
+    @GetMapping("/producttype-overview")
+    public List<CategoryOverviewDTO> getProductTypeOverview() {
+        return productService.getProductTypeOverview();
+    }
 
 
 
