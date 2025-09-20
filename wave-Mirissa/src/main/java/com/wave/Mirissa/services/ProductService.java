@@ -147,9 +147,8 @@ public class ProductService {
         return results.stream() .map(r -> new CategoryOverviewDTO((String) r[0], (Long) r[1])) .toList();
     }
 
-    public List<CategoryOverviewDTO> getProductNameOverview() {
-        List<Object[]> results = productRepository.countProductsByName();
-        return results.stream() .map(r -> new CategoryOverviewDTO((String) r[0], (Long) r[1])) .toList();
+    public long getTotalProducts() {
+        return productRepository.count();
     }
 
 }

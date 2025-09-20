@@ -75,6 +75,10 @@ public class ProductController {
     }
 
 
+    @GetMapping("/total-products")
+    public long getTotalProducts() {
+        return productService.getTotalProducts();
+    }
 
 
 }

@@ -3,6 +3,7 @@ package com.wave.Mirissa.controllers;
 import com.wave.Mirissa.dtos.UpdateUserRoleDTO;
 import com.wave.Mirissa.exception.UserNotFoundException;
 import com.wave.Mirissa.models.Customization;
+import com.wave.Mirissa.models.Role;
 import com.wave.Mirissa.models.User;
 import com.wave.Mirissa.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class UserControllerAdminPanel {
         }
         userRepository.deleteById(id);
         return  "User with id "+id+" has been deleted successfully!!!.";
+    }
+
+    @GetMapping("/total-users")
+    public long getTotalUsers() {
+        return userRepository.countByRole(Role.USER);
     }
 
 
