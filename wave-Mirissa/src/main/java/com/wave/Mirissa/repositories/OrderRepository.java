@@ -28,9 +28,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<RevenueStatsDTO> getRevenueStats();
 
 
-    @Query("SELECT MONTH(o.createdAt), SUM(o.amount) " +
+    @Query("SELECT MONTH(o.createdAt) AS month, " +
+            "SUM(o.amount) AS totalRevenue, " +
+            "COUNT(o.id) AS totalOrders " +
             "FROM Order o " +
             "GROUP BY MONTH(o.createdAt) " +
             "ORDER BY MONTH(o.createdAt)")
-    List<Object[]> getMonthlyRevenue();
+    List<Object[]> getMonthlyRevenueAndOrders();
+
 }

@@ -204,10 +204,15 @@ public class OrderService {
     }
 
     public List<MonthlyRevenueDTO> getMonthlyRevenue() {
-        List<Object[]> results = orderRepository.getMonthlyRevenue();
+        List<Object[]> results = orderRepository.getMonthlyRevenueAndOrders();
         return results.stream()
-                .map(r -> new MonthlyRevenueDTO((Integer) r[0], (BigDecimal) r[1]))
+                .map(r -> new MonthlyRevenueDTO(
+                        (Integer) r[0],      // month
+                        (BigDecimal) r[1],   // total revenue
+                        (Long) r[2]          // order count
+                ))
                 .toList();
     }
+
 
 }
