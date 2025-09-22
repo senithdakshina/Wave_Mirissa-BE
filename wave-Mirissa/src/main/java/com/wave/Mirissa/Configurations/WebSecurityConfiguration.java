@@ -81,7 +81,7 @@ public class WebSecurityConfiguration {
                                 "/Cus_analyze",
                                 "virtual_try_on/api/questions",
                                 "virtual_try_on/api/answers",
-
+                                "virtual_try_on/api/tryon",
                                 "/api/address/**",
                                 "/api/user/orders/my-orders/**",
                                 "/api/user/orders/**",
