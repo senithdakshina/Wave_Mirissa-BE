@@ -4,6 +4,7 @@ import com.wave.Mirissa.dtos.ReviewRequestDTO;
 import com.wave.Mirissa.dtos.ReviewResponseDTO;
 import com.wave.Mirissa.models.Review;
 import com.wave.Mirissa.services.ReviewService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,10 +32,14 @@ public class ReviewController {
     }
 
     @GetMapping("/user/{userId}/product/{productId}")
-    public Review getUserProductReview(@PathVariable Long userId, @PathVariable Long productId) {
+    public ResponseEntity<Review> getUserProductReview(
+            @PathVariable Long userId,
+            @PathVariable Long productId) {
         return reviewService.getReviewForUserAndProduct(userId, productId)
-                .orElse(null); // return null if no review exists
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build()); // return 404 instead of null
     }
+
 
     // Get reviews for a product
     @GetMapping("/product/{productId}")
